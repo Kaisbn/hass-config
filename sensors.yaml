@@ -39,3 +39,5 @@
 - platform: blockchain
   addresses:
     - '13cfBtocLXf5dBkr4MffN9fJUdqLoS6qbW'
+- platform: aftership
+  api_key: !secret aftership_apikey

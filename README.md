@@ -10,7 +10,8 @@
 
 ### Coming soon
 
-* 2 Xiaomi Mijia smart plugs
+* 2 Mijia smart plugs
+* 2 Aqara temperature sensor
 * 2 Orvibo Smart dimmers
 * Roborock S5
 

@@ -1,36 +1,83 @@
-title: Vancouver Home
-
 resources:
-  - url: /local/custom_cards/icloud3-event-log-card.js?v=1.000
-    type: js
-
+  - type: js
+    url: /local/custom_cards/icloud3-event-log-card.js?v=1.000
+  - type: js
+    url: /local/kiosk.js
+  - type: module
+    url: /community_plugin/aftership-card/aftership-card.js
+title: Vancouver Home
 views:
   - badges:
-      - sensor.transmission_active_torrents
-      - sensor.transmission_status
-      - sensor.transmission_completed_torrents
-      - sensor.transmission_started_torrents
-      - sensor.transmission_up_speed
-      - sensor.transmission_down_speed
+      - entity: device_tracker.iphone11pro
+      - entity: person.karine
+      - entity: sun.sun
+      - entity: binary_sensor.iss
     cards:
-      - entity: media_player.spotify
-        type: media-control
+      - entity: weather.dark_sky
+        type: weather-forecast
+      - aspect_ratio: 75%
+        camera_image: camera.snow_radar
+        entity: camera.snow_radar
+        hold_action:
+          action: none
+        show_state: false
+        type: picture-entity
+      - aspect_ratio: 54%
+        camera_image: camera.mt_seymour
+        camera_view: live
+        entity: camera.mt_seymour
+        hold_action:
+          action: none
+        show_state: false
+        tap_action:
+          action: more-info
+        theme: Backend-selected
+        type: picture-entity
       - entities:
-          - entity: switch.transmission_turtle_mode
-          - entity: switch.transmission_switch
-        title: Switch
+          - entity: sensor.vancouver
+          - entity: sensor.tunis
+          - entity: sensor.paris
+          - entity: sensor.london
+          - entity: sensor.new_york
+          - entity: sensor.tokyo
+        show_header_toggle: false
+        title: World Clock
         type: entities
-    panel: false
-    path: default_view
+      - cards:
+          - cards:
+              - entity: light.bulb_light
+                name: Bulb
+                type: light
+              - entity: light.bedroom
+                name: Bedroom Lights
+                type: light
+            type: horizontal-stack
+          - cards:
+              - entity: switch.led_lights_switch
+                hold_action:
+                  action: more-info
+                icon: 'mdi:lightbulb'
+                name: LED
+                tap_action:
+                  action: toggle
+                theme: slate
+                type: entity-button
+            type: horizontal-stack
+        type: vertical-stack
+      - entities:
+          - entity: binary_sensor.front_door_contact
+          - entity: binary_sensor.motion_2_occupancy
+          - entity: binary_sensor.motion_1_occupancy
+        show_header_toggle: false
+        title: Motion
+        type: entities
+      - type: 'custom:aftership-card'
+        entity: sensor.aftership
+        title: Packages
+    path: dashboard
     theme: slate
-    title: Media
-  - badges:
-      - entity: binary_sensor.motion_1_occupancy
-      - entity: binary_sensor.motion_2_occupancy
-      - entity: binary_sensor.front_door_contact
-      - entity: light.bulb_light
-      - entity: switch.led_lights_switch
-      - entity: light.bedroom
+    title: Dashboard
+  - badges: []
     cards:
       - entities:
           - input_text.zigbee2mqtt_old_name
@@ -54,8 +101,31 @@ views:
         type: entities
       - entities:
           - entity: automation.turn_on_the_living_room_lights
-          - entity: automation.turn_off_the_living_room_lights
+          - entity: automation.turn_on_the_living_room_lights_when_motion_is_detected
+          - entity: automation.turn_on_the_living_room_lights_dimmed
+          - entity: automation.turn_off_the_living_room_lights_using_switch
+          - entity: automation.dim_living_room_when_media_is_playing
+          - entity: automation.undim_living_room_lights_when_media_is_paused
         title: Lights
         type: entities
     path: zigbee-control
     title: Zigbee control
+  - badges:
+      - entity: sensor.transmission_active_torrents
+      - entity: sensor.transmission_status
+      - entity: sensor.transmission_completed_torrents
+      - entity: sensor.transmission_started_torrents
+      - entity: sensor.transmission_up_speed
+      - entity: sensor.transmission_down_speed
+    cards:
+      - entities:
+          - entity: switch.transmission_turtle_mode
+          - entity: switch.transmission_switch
+        title: Switch
+        type: entities
+      - entity: media_player.spotify
+        type: media-control
+    panel: false
+    path: default_view
+    theme: slate
+    title: Media
