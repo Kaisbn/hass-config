@@ -1,0 +1,246 @@
+- id: '1572916920034'
+  alias: Sensors when not home
+  description: Send notification if motion detected when not home
+  trigger:
+  - device_id: 65529a4b828041108316728880340a6c
+    domain: binary_sensor
+    entity_id: binary_sensor.motion_1_occupancy
+    platform: device
+    type: motion
+  - device_id: b87abad6254647268b2f333db3b2a5e5
+    domain: binary_sensor
+    entity_id: binary_sensor.motion_2_occupancy
+    platform: device
+    type: motion
+  - device_id: 2cd27ab0affa43c7bc7265cc4ed90c04
+    domain: binary_sensor
+    entity_id: binary_sensor.front_door_contact
+    platform: device
+    type: opened
+  condition:
+  - condition: state
+    entity_id: person.kais
+    state: not_home
+  - condition: state
+    entity_id: person.karine
+    state: not_home
+  action:
+  - data:
+      message: Sensors triggered at home! 🕵🏻‍♂️
+    service: notify.ios_iphone_11_pro
+- id: '1575004627821'
+  alias: Turn on the living room lights
+  description: ''
+  trigger:
+  - entity_id: sensor.light_switch_click
+    platform: state
+    to: 'on'
+  condition:
+  - condition: device
+    device_id: 3c7b03507e4340f699ab93684c061d53
+    domain: light
+    entity_id: light.bulb_light
+    type: is_on
+  action:
+  - scene: scene.living_room_normal
+- id: '1575004958830'
+  alias: Turn off the living room lights using switch
+  description: ''
+  trigger:
+  - entity_id: sensor.light_switch_click
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - device_id: 3c7b03507e4340f699ab93684c061d53
+    domain: light
+    entity_id: light.bulb_light
+    type: turn_off
+  - device_id: 696174e7edb34ab7961d233900e11e28
+    domain: switch
+    entity_id: switch.led_lights_switch
+    type: turn_off
+- id: '1575163193342'
+  alias: Turn on the living room lights when motion is detected
+  description: ''
+  trigger:
+  - device_id: b87abad6254647268b2f333db3b2a5e5
+    domain: binary_sensor
+    entity_id: binary_sensor.motion_2_occupancy
+    platform: device
+    type: motion
+  condition:
+  - condition: and
+    conditions:
+    - after: sunset
+      condition: sun
+    - before: '23:59:59'
+      condition: time
+  action:
+  - device_id: 696174e7edb34ab7961d233900e11e28
+    domain: switch
+    entity_id: switch.led_lights_switch
+    type: turn_on
+  - device_id: 3c7b03507e4340f699ab93684c061d53
+    domain: light
+    entity_id: light.bulb_light
+    type: turn_on
+- id: '1575163662407'
+  alias: Turn off the lights when I leave home
+  description: ''
+  trigger:
+  - entity_id: person.kais
+    event: leave
+    platform: zone
+    zone: zone.home
+  - entity_id: person.karine
+    event: leave
+    platform: zone
+    zone: zone.home
+  condition: []
+  action:
+  - device_id: 3c7b03507e4340f699ab93684c061d53
+    domain: light
+    entity_id: light.bulb_light
+    type: turn_off
+  - device_id: 696174e7edb34ab7961d233900e11e28
+    domain: switch
+    entity_id: switch.led_lights_switch
+    type: turn_off
+  - device_id: 5415x25052r7icro30839514h8lb07iz
+    domain: light
+    entity_id: light.bedroom
+    type: turn_off
+- id: '1575259801458'
+  alias: Turn on the bedroom light when motion is detected
+  description: ''
+  trigger:
+  - device_id: 65529a4b828041108316728880340a6c
+    domain: binary_sensor
+    entity_id: binary_sensor.motion_1_occupancy
+    platform: device
+    type: motion
+  condition:
+  - after: '15:00:00'
+    before: '23:00:00'
+    condition: time
+  action:
+  - device_id: 5415x25052r7icro30839514h8lb07iz
+    domain: light
+    entity_id: light.bedroom
+    type: turn_on
+- id: '1575261065811'
+  alias: Turn off the bedroom light when no motion is detected
+  description: ''
+  trigger:
+  - device_id: 65529a4b828041108316728880340a6c
+    domain: binary_sensor
+    entity_id: binary_sensor.motion_1_occupancy
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+    platform: device
+    type: no_motion
+  condition: []
+  action:
+  - device_id: 5415x25052r7icro30839514h8lb07iz
+    domain: light
+    entity_id: light.bedroom
+    type: turn_off
+- id: '1575261423692'
+  alias: Dim living room when media is playing
+  description: ''
+  trigger:
+  - entity_id: media_player.plex_fire_tv
+    from: paused
+    platform: state
+    to: playing
+  condition:
+  - after: sunset
+    condition: sun
+  action:
+  - scene: scene.living_room_dimmed
+- id: '1575261572979'
+  alias: Undim living room lights when media is paused
+  description: ''
+  trigger:
+  - entity_id: media_player.plex_fire_tv
+    from: playing
+    platform: state
+    to: paused
+  condition: []
+  action:
+  - scene: scene.living_room_normal
+- id: '1575266815789'
+  alias: Turn on the living room lights (dimmed)
+  description: ''
+  trigger:
+  - entity_id: sensor.light_switch_click
+    platform: state
+    to: 'on'
+  condition:
+  - condition: device
+    device_id: 696174e7edb34ab7961d233900e11e28
+    domain: switch
+    entity_id: switch.led_lights_switch
+    type: is_off
+  - condition: device
+    device_id: 3c7b03507e4340f699ab93684c061d53
+    domain: light
+    entity_id: light.bulb_light
+    type: is_off
+  action:
+  - scene: scene.living_room_dimmed
+- id: '1575882844623'
+  alias: Turn off the lights when in bed
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.kais_in_bed
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.karine_in_bed
+    platform: state
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.karine_in_bed
+      state: 'on'
+    - condition: state
+      entity_id: binary_sensor.kais_in_bed
+      state: 'on'
+  action:
+  - device_id: 3c7b03507e4340f699ab93684c061d53
+    domain: light
+    entity_id: light.bulb_light
+    type: turn_off
+  - device_id: 696174e7edb34ab7961d233900e11e28
+    domain: switch
+    entity_id: switch.led_lights_switch
+    type: turn_off
+- id: '1576050278007'
+  alias: Send a notification when Kais in bed
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.kais_in_bed
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: Good night 🛌😴
+    service: notify.ios_iphone_11_pro
+- id: '1576050676881'
+  alias: Send a notification when Karine in bed
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.karine_in_bed
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: Good night 🛌😴
+    service: notify.mobile_app_karines_iphone

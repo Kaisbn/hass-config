@@ -1,0 +1,15 @@
+*
+
+# Whitelist files to push
+!*.yaml
+!.gitignore
+!*.md
+!custom_components
+!packages
+!themes
+!www
+
+# Ban env-related files
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml

@@ -1,0 +1,22 @@
+- platform: local_file
+  file_path: /var/lib/hass/www/radar/snow_radar.gif
+  name: Snow Radar
+- platform: generic
+  still_image_url: https://mtseymour.ca/webcam_image.php?cam=1
+  name: Mt Seymour Main
+- platform: generic
+  still_image_url: https://mtseymour.ca/webcam_image.php?cam=2
+  name: Mt Seymour Weather
+- platform: combined
+  name: Mt Seymour
+  base_address: https://home.kaisbn.fr
+  entities:
+    - camera.mt_seymour_main
+    - camera.mt_seymour_weather
+- platform: combined
+  name: Snow Report
+  base_address: https://home.kaisbn.fr
+  entities:
+    - camera.snow_radar
+    - camera.mt_seymour_main
+    - camera.mt_seymour_weather

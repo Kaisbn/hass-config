@@ -1,0 +1,30 @@
+- id: '1575260847024'
+  name: Living room normal
+  entities:
+    light.bulb_light:
+      brightness: 95
+      color_temp: 375
+      state: 'on'
+    switch.led_lights_switch:
+      state: 'on'
+- id: '1575261382581'
+  name: Living room dimmed
+  entities:
+    light.bulb_light:
+      brightness: 44
+      color_temp: 462
+      state: 'on'
+    switch.led_lights_switch:
+      state: 'off'
+- id: '1575507755657'
+  name: Bedroom normal
+  entities:
+    light.bedroom:
+      brightness: 255
+      state: 'on'
+- id: '1575507833541'
+  name: Bedroom dimmed
+  entities:
+    light.bedroom:
+      brightness: 34
+      state: 'on'

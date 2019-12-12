@@ -1,0 +1,41 @@
+- platform: "mqtt"
+  name: "Bedroom_linkquality"
+  state_topic: "zigbee2mqtt/Bedroom bulb"
+  availability_topic: "zigbee2mqtt/bridge/state"
+  unit_of_measurement: "-"
+  value_template: "{{ value_json.linkquality }}"
+  unique_id: "0x14b457fffe44348c_sensor"
+  device:
+    identifiers:
+      - "mqtt"
+      - "zigbee_0x14b457fffe44348c"
+    manufacturer: "IKEA"
+    model: "LED1836G9"
+    name: "TRADFRI LED bulb E27 WW 806lm"
+    sw_version: "Zigbee2mqtt 1.6.0"
+- platform: moon
+- platform: worldclock
+  time_zone: America/Vancouver
+  name: Vancouver
+- platform: worldclock
+  time_zone: Africa/Tunis
+  name: Tunis
+- platform: worldclock
+  time_zone: Europe/Paris
+  name: Paris
+- platform: worldclock
+  time_zone: Europe/London
+  name: London
+- platform: worldclock
+  time_zone: America/New_York
+  name: New York
+- platform: worldclock
+  time_zone: Asia/Tokyo
+  name: Tokyo
+- platform: bitcoin
+  display_options:
+    - exchangerate
+    - trade_volume_btc
+- platform: blockchain
+  addresses:
+    - '13cfBtocLXf5dBkr4MffN9fJUdqLoS6qbW'

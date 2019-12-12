@@ -1,0 +1,9 @@
+- platform: icloud
+  username: 'bennaceur.kais@me.com'
+  password: !secret icloud_password
+  account_name: iCloud
+  interval_seconds: 30
+  consider_home: 600
+- platform: bluetooth_le_tracker
+  track_new_devices: false
+  device_id: hci1

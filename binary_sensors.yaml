@@ -1,0 +1,74 @@
+- platform: iss
+- name: 'Kais in bed'
+  platform: 'bayesian'
+  prior: 0.25
+  probability_threshold: 0.95
+  observations:
+    - platform: 'state'
+      entity_id: 'binary_sensor.motion_2_occupancy'
+      prob_given_true: 0.4
+      prob_given_false: 0.2
+      to_state: 'off'
+    - platform: 'state'
+      entity_id: 'sensor.basement_motion'
+      prob_given_true: 0.5
+      prob_given_false: 0.4
+      to_state: 'off'
+    - platform: 'state'
+      entity_id: 'binary_sensor.motion_1_occupancy'
+      prob_given_true: 0.5
+      to_state: 'on'
+    - platform: 'state'
+      entity_id: 'sensor.activity'
+      prob_given_true: 0.7
+      to_state: 'Stationary'
+    - platform: 'state'
+      entity_id: 'device_tracker.iphone11pro'
+      prob_given_true: 0.7
+      to_state: 'home'
+    - platform: 'state'
+      entity_id: 'sun.sun'
+      prob_given_true: 0.7
+      to_state: 'below_horizon'
+    - platform: 'state'
+      entity_id: 'sensor.battery_state'
+      prob_given_true: 0.7
+      to_state: 'Charging'
+    - platform: 'state'
+      entity_id: 'sensor.battery_state'
+      prob_given_true: 0.7
+      to_state: 'Full'
+- name: 'Karine in bed'
+  platform: 'bayesian'
+  prior: 0.25
+  probability_threshold: 0.95
+  observations:
+    - platform: 'state'
+      entity_id: 'binary_sensor.motion_2_occupancy'
+      prob_given_true: 0.4
+      prob_given_false: 0.2
+      to_state: 'off'
+    - platform: 'state'
+      entity_id: 'binary_sensor.motion_1_occupancy'
+      prob_given_true: 0.5
+      to_state: 'on'
+    - platform: 'state'
+      entity_id: 'sensor.activity'
+      prob_given_true: 0.7
+      to_state: 'Stationary'
+    - platform: 'state'
+      entity_id: 'device_tracker.karines_iphone'
+      prob_given_true: 0.7
+      to_state: 'home'
+    - platform: 'state'
+      entity_id: 'sun.sun'
+      prob_given_true: 0.7
+      to_state: 'below_horizon'
+    - platform: 'state'
+      entity_id: 'sensor.battery_state_2'
+      prob_given_true: 0.7
+      to_state: 'Charging'
+    - platform: 'state'
+      entity_id: 'sensor.battery_state_2'
+      prob_given_true: 0.7
+      to_state: 'Full'

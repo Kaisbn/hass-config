@@ -1,0 +1,61 @@
+title: Vancouver Home
+
+resources:
+  - url: /local/custom_cards/icloud3-event-log-card.js?v=1.000
+    type: js
+
+views:
+  - badges:
+      - sensor.transmission_active_torrents
+      - sensor.transmission_status
+      - sensor.transmission_completed_torrents
+      - sensor.transmission_started_torrents
+      - sensor.transmission_up_speed
+      - sensor.transmission_down_speed
+    cards:
+      - entity: media_player.spotify
+        type: media-control
+      - entities:
+          - entity: switch.transmission_turtle_mode
+          - entity: switch.transmission_switch
+        title: Switch
+        type: entities
+    panel: false
+    path: default_view
+    theme: slate
+    title: Media
+  - badges:
+      - entity: binary_sensor.motion_1_occupancy
+      - entity: binary_sensor.motion_2_occupancy
+      - entity: binary_sensor.front_door_contact
+      - entity: light.bulb_light
+      - entity: switch.led_lights_switch
+      - entity: light.bedroom
+    cards:
+      - entities:
+          - input_text.zigbee2mqtt_old_name
+          - input_text.zigbee2mqtt_remove
+          - input_text.zigbee2mqtt_new_name
+        title: Input text
+        type: entities
+      - entities:
+          - script.zigbee2mqtt_remove
+          - script.zigbee2mqtt_rename
+        title: Script
+        type: entities
+      - entities:
+          - input_select.zigbee2mqtt_log_level
+        title: Input select
+        type: entities
+      - entities:
+          - automation.zigbee2mqtt_log_level
+          - switch.zigbee2mqtt_main_join
+        title: Automation
+        type: entities
+      - entities:
+          - entity: automation.turn_on_the_living_room_lights
+          - entity: automation.turn_off_the_living_room_lights
+        title: Lights
+        type: entities
+    path: zigbee-control
+    title: Zigbee control

@@ -1,0 +1,95 @@
+automation: !include automations.yaml
+
+binary_sensor: !include binary_sensors.yaml
+
+camera: !include cameras.yaml
+
+cloud:
+
+config:
+
+device_tracker: !include device_trackers.yaml
+
+discovery:
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+group: !include groups.yaml
+
+history:
+  include:
+    domains:
+      - light
+      - sensor
+      - sun
+
+homeassistant:
+  packages: !include_dir_named packages
+  auth_providers:
+     - type: homeassistant
+     - type: trusted_networks
+       trusted_networks:
+         - 192.168.1.0/24
+         - 127.0.0.1
+         - fd00::/8
+
+homekit:
+
+http:
+  base_url: !secret baseurl
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1
+    - 192.168.1.0/24
+
+ios:
+
+light: !include lights.yaml
+
+logbook:
+
+map:
+
+media_player: !include media_players.yaml
+
+mobile_app:
+
+mqtt:
+  discovery: true
+  broker: !secret mqtt_broker
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
+
+person:
+
+script: !include scripts.yaml
+
+scene: !include scenes.yaml
+
+sensor: !include sensors.yaml
+
+sun:
+
+system_health:
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_apikey
+
+zeroconf:
+
+zone:
+  - name: Work
+    latitude: !secret work_lat
+    longitude: !secret work_long
+    icon: mdi:laptop
+
+  - name: Home
+    latitude: !secret home_lat
+    longitude: !secret home_long
+    icon: mdi:home
