@@ -1,3 +1,13 @@
+alexa:
+  smart_home:
+    filter:
+      exclude_domains:
+        - automation
+        - group
+        - media_player
+
+api:
+
 automation: !include automations.yaml
 
 binary_sensor: !include binary_sensors.yaml
@@ -11,6 +21,15 @@ config:
 device_tracker: !include device_trackers.yaml
 
 discovery:
+  ignore:
+    - igd
+    - google_cast
+    - plex_mediaserver
+
+fontawesome:
+  regular:
+  solid:
+  brands:
 
 frontend:
   themes: !include_dir_merge_named themes
@@ -20,6 +39,8 @@ group: !include groups.yaml
 history:
   include:
     domains:
+      - binary_sensor
+      - device_tracker
       - light
       - sensor
       - sun
@@ -43,11 +64,16 @@ http:
     - 127.0.0.1
     - 192.168.1.0/24
 
+input_boolean: !include inputs.yaml
+
 ios:
 
 light: !include lights.yaml
 
 logbook:
+
+lovelace:
+  mode: yaml
 
 map:
 
@@ -67,6 +93,11 @@ mqtt:
 
 person:
 
+recorder:
+  exclude:
+    entities:
+      - sensor.vacuum_map
+
 script: !include scripts.yaml
 
 scene: !include scenes.yaml
@@ -75,21 +106,12 @@ sensor: !include sensors.yaml
 
 sun:
 
+switch: !include switches.yaml
+
 system_health:
 
-weather:
-  - platform: darksky
-    api_key: !secret darksky_apikey
+weather: !include weather.yaml
 
 zeroconf:
 
-zone:
-  - name: Work
-    latitude: !secret work_lat
-    longitude: !secret work_long
-    icon: mdi:laptop
-
-  - name: Home
-    latitude: !secret home_lat
-    longitude: !secret home_long
-    icon: mdi:home
+zone: !include zones.yaml

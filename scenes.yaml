@@ -4,8 +4,13 @@
     light.bulb_light:
       brightness: 95
       color_temp: 375
+      friendly_name: Bulb
+      max_mireds: 500
+      min_mireds: 153
       state: 'on'
+      supported_features: 43
     switch.led_lights_switch:
+      friendly_name: LED lights
       state: 'on'
 - id: '1575261382581'
   name: Living room dimmed

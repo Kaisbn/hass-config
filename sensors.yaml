@@ -41,3 +41,10 @@
     - '13cfBtocLXf5dBkr4MffN9fJUdqLoS6qbW'
 - platform: aftership
   api_key: !secret aftership_apikey
+- platform: environment_canada
+- platform: mqtt
+  state_topic: "valetudo/rockrobo/state"
+  json_attributes_topic: "valetudo/rockrobo/map_data"
+  name: vacuum_map
+  value_template: 'OK'
+  scan_interval: 5

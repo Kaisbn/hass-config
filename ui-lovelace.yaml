@@ -1,38 +1,126 @@
 resources:
   - type: js
-    url: /local/custom_cards/icloud3-event-log-card.js?v=1.000
-  - type: js
     url: /local/kiosk.js
+  - type: js
+    url: /community_plugin/lovelace-valetudo-map-card/valetudo-map-card.js
+  - type: js
+    url: /local/custom_cards/icloud3-event-log-card.js?v=1.000
+  - url: /community_plugin/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js
+    type: js
   - type: module
     url: /community_plugin/aftership-card/aftership-card.js
+  - type: module
+    url: /community_plugin/custom-header/custom-header.js
+  - type: module
+    url: /community_plugin/mini-media-player/mini-media-player-bundle.js
+  - url: /local/slider-entity-row.js
+    type: module
+custom_header:
+  compact_mode: true
+  background: rgba(155, 155, 155, 0.25)
+background: var(--background-image)
 title: Vancouver Home
 views:
-  - badges:
+  # Main panel
+  - path: dashboard
+    title: Dashboard
+    icon: fas:tachometer-alt
+    badges:
       - entity: device_tracker.iphone11pro
       - entity: person.karine
+    cards:
+      - cards:
+          - entities:
+              - entity: binary_sensor.front_door_contact
+              - entity: binary_sensor.motion_2_occupancy
+              - entity: binary_sensor.motion_1_occupancy
+              - entity: sensor.livingroom_temperature
+                name: Living room
+              - entity: sensor.livingroom_humidity
+                name: Living room
+              - entity: sensor.bedroom_temperature
+                name: Bedroom
+              - entity: sensor.bedroom_humidity
+                name: Bedroom
+            show_header_toggle: false
+            title: Sensors
+            type: entities
+          - type: entities
+            show_header_toggle: false
+            title: Lights
+            entities:
+              - entity: switch.led_lights_switch
+                name: LED
+              - type: custom:slider-entity-row
+                entity: light.bulb_light
+                name: Bulb
+              - type: custom:slider-entity-row
+                entity: light.bedroom
+                name: Bedroom
+              - type: custom:slider-entity-row
+                entity: light.kitchen
+                name: Kitchen
+        type: vertical-stack
+      - cards:
+          - type: 'custom:xiaomi-vacuum-card'
+            entity: vacuum.rockrobo
+            vendor: valetudo
+            name: 'Vacuum'
+          - cards:
+              - entities:
+                  - entity: switch.vacuum_charger
+                    name: Outlet
+                  - entity: switch.vacuum_charger_usb
+                    name: USB
+                title: Vacuum base
+                type: entities
+              - entities:
+                  - entity: switch.power_outlet
+                    name: Outlet
+                  - entity: switch.power_outlet_usb
+                    name: USB
+                title: Power outlet
+                type: entities
+            type: horizontal-stack
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: switch.vacuum
+                name: House
+              - entity: switch.vacuum_living_room
+                name: Living Room
+              - entity: switch.vacuum_kitchen
+                name: Kitchen
+              - entity: switch.vacuum_hall
+                name: Hall
+              - entity: switch.vacuum_bedroom
+                name: Bedroom
+              - entity: switch.vacuum_bathroom
+                name: Bathroom
+            title: Vacuum zone
+        type: vertical-stack
+      - type: 'custom:valetudo-map-card'
+        entity: sensor.vacuum_map
+        rotate: -90
+        crop:
+          top: 100
+          bottom: -100
+          left: 0
+          right: 0
+        min_height: 0
+        map_scale: 2
+
+  # Weather panel
+  - path: weather
+    title: Weather Forecast
+    icon: fas:snowflake
+    badges:
       - entity: sun.sun
+      - entity: sensor.moon
       - entity: binary_sensor.iss
     cards:
       - entity: weather.dark_sky
         type: weather-forecast
-      - aspect_ratio: 75%
-        camera_image: camera.snow_radar
-        entity: camera.snow_radar
-        hold_action:
-          action: none
-        show_state: false
-        type: picture-entity
-      - aspect_ratio: 54%
-        camera_image: camera.mt_seymour
-        camera_view: live
-        entity: camera.mt_seymour
-        hold_action:
-          action: none
-        show_state: false
-        tap_action:
-          action: more-info
-        theme: Backend-selected
-        type: picture-entity
       - entities:
           - entity: sensor.vancouver
           - entity: sensor.tunis
@@ -44,40 +132,37 @@ views:
         title: World Clock
         type: entities
       - cards:
-          - cards:
-              - entity: light.bulb_light
-                name: Bulb
-                type: light
-              - entity: light.bedroom
-                name: Bedroom Lights
-                type: light
-            type: horizontal-stack
-          - cards:
-              - entity: switch.led_lights_switch
-                hold_action:
-                  action: more-info
-                icon: 'mdi:lightbulb'
-                name: LED
-                tap_action:
-                  action: toggle
-                theme: slate
-                type: entity-button
-            type: horizontal-stack
+          - aspect_ratio: 75%
+            camera_image: camera.snow_report
+            entity: camera.snow_report
+            hold_action:
+              action: none
+            show_state: false
+            type: picture-entity
+          - aspect_ratio: 54%
+            camera_image: camera.mt_seymour
+            camera_view: live
+            entity: camera.mt_seymour
+            hold_action:
+              action: none
+            show_state: false
+            tap_action:
+              action: more-info
+            type: picture-entity
         type: vertical-stack
-      - entities:
-          - entity: binary_sensor.front_door_contact
-          - entity: binary_sensor.motion_2_occupancy
-          - entity: binary_sensor.motion_1_occupancy
-        show_header_toggle: false
-        title: Motion
-        type: entities
-      - type: 'custom:aftership-card'
-        entity: sensor.aftership
+
+  # Shipping panel
+  - title: Packages
+    panel: true
+    icon: fas:shipping-fast
+    cards:
+      - entity: sensor.aftership
         title: Packages
-    path: dashboard
-    theme: slate
-    title: Dashboard
+        type: 'custom:aftership-card'
+
+  # Network/Zigbee settings
   - badges: []
+    icon: fas:network-wired
     cards:
       - entities:
           - input_text.zigbee2mqtt_old_name
@@ -110,6 +195,8 @@ views:
         type: entities
     path: zigbee-control
     title: Zigbee control
+
+  # Torrent/Media center
   - badges:
       - entity: sensor.transmission_active_torrents
       - entity: sensor.transmission_status
@@ -117,15 +204,17 @@ views:
       - entity: sensor.transmission_started_torrents
       - entity: sensor.transmission_up_speed
       - entity: sensor.transmission_down_speed
+    icon: fas:cloud-download-alt
     cards:
+      - entity: media_player.spotify
+        type: custom:mini-media-player
+        artwork: cover
+        source: icon
       - entities:
           - entity: switch.transmission_turtle_mode
           - entity: switch.transmission_switch
         title: Switch
         type: entities
-      - entity: media_player.spotify
-        type: media-control
     panel: false
     path: default_view
-    theme: slate
     title: Media

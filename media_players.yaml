@@ -1,10 +1,10 @@
 - platform: spotify
-  client_id: '20f47e947eeb4730bb0c97239665a38c'
+  client_id: !secret spotify_client_id
   client_secret: !secret spotify_secret
 - platform: androidtv
   name: Fire TV
   device_class: firetv
-  host: 192.168.1.21
+  host: !secret firetv_ip
   apps:
     com.amazon.tv.launcher: "Fire TV"
   turn_on_command: "input keyevent 3"

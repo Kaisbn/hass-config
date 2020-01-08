@@ -7,6 +7,9 @@
 - platform: generic
   still_image_url: https://mtseymour.ca/webcam_image.php?cam=2
   name: Mt Seymour Weather
+- platform: generic
+  still_image_url: https://mtseymour.ca/webcam_image.php?cam=3
+  name: Mt Seymour Snowruler
 - platform: combined
   name: Mt Seymour
   base_address: https://home.kaisbn.fr
@@ -18,5 +21,5 @@
   base_address: https://home.kaisbn.fr
   entities:
     - camera.snow_radar
-    - camera.mt_seymour_main
-    - camera.mt_seymour_weather
+    - camera.mt_seymour_snowruler
+- platform: environment_canada

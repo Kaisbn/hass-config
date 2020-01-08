@@ -1,6 +1,6 @@
 - id: '1572916920034'
-  alias: Sensors when not home
-  description: Send notification if motion detected when not home
+  alias: 'Sensor: Send notification if motion detected when not home'
+  description: ''
   trigger:
   - device_id: 65529a4b828041108316728880340a6c
     domain: binary_sensor
@@ -19,17 +19,14 @@
     type: opened
   condition:
   - condition: state
-    entity_id: person.kais
-    state: not_home
-  - condition: state
-    entity_id: person.karine
+    entity_id: group.family
     state: not_home
   action:
   - data:
       message: Sensors triggered at home! 🕵🏻‍♂️
     service: notify.ios_iphone_11_pro
 - id: '1575004627821'
-  alias: Turn on the living room lights
+  alias: 'Lights: Turn on the living room lights using switch'
   description: ''
   trigger:
   - entity_id: sensor.light_switch_click
@@ -44,7 +41,7 @@
   action:
   - scene: scene.living_room_normal
 - id: '1575004958830'
-  alias: Turn off the living room lights using switch
+  alias: 'Lights: Turn off the living room lights using switch'
   description: ''
   trigger:
   - entity_id: sensor.light_switch_click
@@ -61,7 +58,7 @@
     entity_id: switch.led_lights_switch
     type: turn_off
 - id: '1575163193342'
-  alias: Turn on the living room lights when motion is detected
+  alias: 'Lights: Turn on the living room lights when Hall motion is detected'
   description: ''
   trigger:
   - device_id: b87abad6254647268b2f333db3b2a5e5
@@ -86,17 +83,12 @@
     entity_id: light.bulb_light
     type: turn_on
 - id: '1575163662407'
-  alias: Turn off the lights when I leave home
+  alias: 'Lights: Turn off the lights when everyone leaves home'
   description: ''
   trigger:
-  - entity_id: person.kais
-    event: leave
-    platform: zone
-    zone: zone.home
-  - entity_id: person.karine
-    event: leave
-    platform: zone
-    zone: zone.home
+  - entity_id: group.family
+    from: home
+    platform: state
   condition: []
   action:
   - device_id: 3c7b03507e4340f699ab93684c061d53
@@ -111,8 +103,12 @@
     domain: light
     entity_id: light.bedroom
     type: turn_off
+  - device_id: 9da02b33e97444d8a768935b358cd4b9
+    domain: light
+    entity_id: light.kitchen
+    type: turn_off
 - id: '1575259801458'
-  alias: Turn on the bedroom light when motion is detected
+  alias: 'Lights: Turn on the bedroom light when motion is detected'
   description: ''
   trigger:
   - device_id: 65529a4b828041108316728880340a6c
@@ -125,12 +121,9 @@
     before: '23:00:00'
     condition: time
   action:
-  - device_id: 5415x25052r7icro30839514h8lb07iz
-    domain: light
-    entity_id: light.bedroom
-    type: turn_on
+  - scene: scene.bedroom_normal
 - id: '1575261065811'
-  alias: Turn off the bedroom light when no motion is detected
+  alias: 'Lights: Turn off the bedroom light when no motion is detected'
   description: ''
   trigger:
   - device_id: 65529a4b828041108316728880340a6c
@@ -149,7 +142,7 @@
     entity_id: light.bedroom
     type: turn_off
 - id: '1575261423692'
-  alias: Dim living room when media is playing
+  alias: 'Lights: Dim living room when media is playing'
   description: ''
   trigger:
   - entity_id: media_player.plex_fire_tv
@@ -158,22 +151,25 @@
     to: playing
   condition:
   - after: sunset
+    before: sunrise
     condition: sun
   action:
   - scene: scene.living_room_dimmed
 - id: '1575261572979'
-  alias: Undim living room lights when media is paused
+  alias: 'Lights: Undim living room lights when media is paused'
   description: ''
   trigger:
   - entity_id: media_player.plex_fire_tv
     from: playing
     platform: state
-    to: paused
-  condition: []
+  condition:
+  - after: sunset
+    before: sunrise
+    condition: sun
   action:
   - scene: scene.living_room_normal
 - id: '1575266815789'
-  alias: Turn on the living room lights (dimmed)
+  alias: 'Lights: Turn on the living room lights (dimmed) using switch'
   description: ''
   trigger:
   - entity_id: sensor.light_switch_click
@@ -193,7 +189,7 @@
   action:
   - scene: scene.living_room_dimmed
 - id: '1575882844623'
-  alias: Turn off the lights when in bed
+  alias: 'Lights: Turn off the lights when in bed'
   description: ''
   trigger:
   - entity_id: binary_sensor.kais_in_bed
@@ -221,7 +217,7 @@
     entity_id: switch.led_lights_switch
     type: turn_off
 - id: '1576050278007'
-  alias: Send a notification when Kais in bed
+  alias: 'Sensor: Send a notification when Kais in bed'
   description: ''
   trigger:
   - entity_id: binary_sensor.kais_in_bed
@@ -233,7 +229,7 @@
       message: Good night 🛌😴
     service: notify.ios_iphone_11_pro
 - id: '1576050676881'
-  alias: Send a notification when Karine in bed
+  alias: 'Sensor: Send a notification when Karine in bed'
   description: ''
   trigger:
   - entity_id: binary_sensor.karine_in_bed
@@ -244,3 +240,98 @@
   - data:
       message: Good night 🛌😴
     service: notify.mobile_app_karines_iphone
+- id: '1576831285153'
+  alias: 'Vacuum: Cleanup entrance when someone gets home'
+  description: ''
+  trigger:
+  - entity_id: group.family
+    platform: state
+    to: home
+  condition:
+  - after: '10:00'
+    before: '21:00'
+    condition: time
+  action:
+  - delay: 00:15:00
+  - data:
+      command: zoned_cleanup
+      entity_id: vacuum.rockrobo
+      params:
+        zone_ids:
+        - Hall
+    entity_id: vacuum.rockrobo
+    service: vacuum.send_command
+- id: '1576872918301'
+  alias: 'Vacuum: Cleaning started'
+  description: ''
+  trigger:
+  - entity_id: vacuum.rockrobo
+    from: docked
+    platform: state
+    to: cleaning
+  condition: []
+  action:
+  - data:
+      message: '🤖🧹: I''ve started cleaning!'
+      title: Robot
+    service: notify.mobile_app_iphone_11_pro
+- id: '1576872978100'
+  alias: 'Vacuum: Cleaning stopped'
+  description: ''
+  trigger:
+  - entity_id: vacuum.rockrobo
+    from: returning
+    platform: state
+    to: docked
+  condition: []
+  action:
+  - data:
+      message: '🤖🧹: I''ve finished cleaning after {{ (state_attr(''vacuum.rockrobo'',
+        ''last_run_stats'').duration/60) | round(0) }} minutes!'
+      title: Robot
+    service: notify.mobile_app_iphone_11_pro
+  - entity_id: input_boolean.cleaned_today
+    service: input_boolean.turn_on
+- id: '1576873721439'
+  alias: 'Vacuum: Cleanup when nobody is home'
+  description: ''
+  trigger:
+  - entity_id: group.family
+    from: home
+    platform: state
+  condition:
+  - condition: and
+    conditions:
+    - after: '11:00'
+      before: '22:00'
+      condition: time
+    - condition: state
+      entity_id: input_boolean.cleaned_today
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+  action:
+  - alias: ''
+    data:
+      command: zoned_cleanup
+      entity_id: vacuum.rockrobo
+      params:
+        zone_ids:
+        - Hall
+        - Kitchen
+        - Living Room
+        - Bedroom
+        - Bathroom
+    entity_id: vacuum.rockrobo
+    service: vacuum.send_command
+- id: '1576874192711'
+  alias: 'Vacuum: Reset cleaning counter'
+  description: ''
+  trigger:
+  - at: 00:00:01
+    platform: time
+  condition: []
+  action:
+  - entity_id: input_boolean.cleaned_today
+    service: input_boolean.turn_off

@@ -1,9 +1,21 @@
 - platform: icloud
-  username: 'bennaceur.kais@me.com'
-  password: !secret icloud_password
-  account_name: iCloud
+  username: !secret icloud_kais_email
+  password: !secret icloud_kais_password
+  account_name: iCloud Kais
   interval_seconds: 30
   consider_home: 600
-- platform: bluetooth_le_tracker
-  track_new_devices: false
-  device_id: hci1
+- platform: icloud
+  username: !secret icloud_karine_email
+  password: !secret icloud_karine_password
+  account_name: iCloud Karine
+  interval_seconds: 30
+  consider_home: 600
+- platform: iphonedetect
+  consider_home: 60
+  hosts:
+    iphone11pro_ping: !secret iphone11pro_ip
+    iphone11_ping: !secret iphone11_ip
+- platform: arpscan_tracker
+  interval_seconds: 15
+  consider_home: 60
+  track_new_devices: true

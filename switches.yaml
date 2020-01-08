@@ -1,0 +1,100 @@
+- platform: xiaomi_miio
+  host: !secret switch1_ip
+  token: !secret switch1_token
+  name: Vacuum charger
+  model: 'chuangmi.plug.v3'
+- platform: xiaomi_miio
+  host: !secret switch2_ip
+  token: !secret switch2_token
+  name: Power outlet
+  model: 'chuangmi.plug.v3'
+- platform: template
+  switches:
+    vacuum_kitchen:
+      friendly_name: Vacuum kitchen
+      value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      turn_on:
+        service: vacuum.send_command
+        data:
+          entity_id: vacuum.rockrobo
+          command: 'zoned_cleanup'
+          params:
+            zone_ids:
+              - Kitchen
+      turn_off:
+        service: vacuum.return_to_base
+        entity_id: vacuum.rockrobo
+    vacuum_hall:
+      friendly_name: Vacuum hall
+      value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      turn_on:
+        service: vacuum.send_command
+        data:
+          entity_id: vacuum.rockrobo
+          command: 'zoned_cleanup'
+          params:
+            zone_ids:
+              - Hall
+      turn_off:
+        service: vacuum.return_to_base
+        entity_id: vacuum.rockrobo
+    vacuum_living_room:
+      friendly_name: Vacuum living room
+      value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      turn_on:
+        service: vacuum.send_command
+        data:
+          entity_id: vacuum.rockrobo
+          command: 'zoned_cleanup'
+          params:
+            zone_ids:
+              - Living room
+      turn_off:
+        service: vacuum.return_to_base
+        entity_id: vacuum.rockrobo
+    vacuum_bathroom:
+      friendly_name: Vacuum bathroom
+      value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      turn_on:
+        service: vacuum.send_command
+        data:
+          entity_id: vacuum.rockrobo
+          command: 'zoned_cleanup'
+          params:
+            zone_ids:
+              - Bathroom
+      turn_off:
+        service: vacuum.return_to_base
+        entity_id: vacuum.rockrobo
+    vacuum_bedroom:
+      friendly_name: Vacuum bedroom
+      value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      turn_on:
+        service: vacuum.send_command
+        data:
+          entity_id: vacuum.rockrobo
+          command: 'zoned_cleanup'
+          params:
+            zone_ids:
+              - Bedroom
+      turn_off:
+        service: vacuum.return_to_base
+        entity_id: vacuum.rockrobo
+    vacuum:
+      friendly_name: Vacuum
+      value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      turn_on:
+        service: vacuum.send_command
+        data:
+          entity_id: vacuum.rockrobo
+          command: 'zoned_cleanup'
+          params:
+            zone_ids:
+              - Kitchen
+              - Living room
+              - Bedroom
+              - Bathroom
+              - Hall
+      turn_off:
+        service: vacuum.return_to_base
+        entity_id: vacuum.rockrobo
