@@ -1,5 +1,5 @@
 - id: '1572916920034'
-  alias: 'Sensor: Send notification if motion detected when not home'
+  alias: 'Sensor: Notify Kais if motion is detected when not home'
   description: ''
   trigger:
   - device_id: 65529a4b828041108316728880340a6c
@@ -70,9 +70,16 @@
   - condition: and
     conditions:
     - after: sunset
+      after_offset: -01:00:00
       condition: sun
     - before: '23:59:59'
       condition: time
+  - below: 5
+    condition: device
+    device_id: 34079b50d2bd46a781e9813584b42f90
+    domain: sensor
+    entity_id: sensor.livingroom_light
+    type: is_illuminance
   action:
   - device_id: 696174e7edb34ab7961d233900e11e28
     domain: switch
@@ -117,9 +124,19 @@
     platform: device
     type: motion
   condition:
-  - after: '15:00:00'
-    before: '23:00:00'
-    condition: time
+  - condition: and
+    conditions:
+    - after: sunset
+      after_offset: -00:30:00
+      condition: sun
+    - before: '23:59:59'
+      condition: time
+    - below: 5
+      condition: device
+      device_id: f8704551f8ad4e73b9986af69f2c776a
+      domain: sensor
+      entity_id: sensor.bedroom_light
+      type: is_illuminance
   action:
   - scene: scene.bedroom_normal
 - id: '1575261065811'
@@ -323,6 +340,7 @@
         - Living Room
         - Bedroom
         - Bathroom
+        - Den
     entity_id: vacuum.rockrobo
     service: vacuum.send_command
 - id: '1576874192711'
@@ -335,3 +353,54 @@
   action:
   - entity_id: input_boolean.cleaned_today
     service: input_boolean.turn_off
+- id: '1584158523689'
+  alias: 'Sensor: Notify Kais when the bedroom temperature is low in the evening'
+  description: ''
+  trigger:
+  - at: '21:30:00'
+    platform: time
+  condition:
+  - below: '19'
+    condition: numeric_state
+    entity_id: sensor.bedroom_temperature
+  action:
+  - data:
+      message: Don't forget to turn on the bedroom heater 🛌🥶
+    service: notify.ios_iphone_11_pro
+- id: '1584438260170'
+  alias: 'Sensor: Notify Kais when the living room temperature is high during the
+    day'
+  description: ''
+  trigger:
+  - at: '12:00:00'
+    platform: time
+  - at: '16:00:00'
+    platform: time
+  condition:
+  - above: '20'
+    condition: numeric_state
+    entity_id: sensor.livingroom_temperature
+  - above: '20'
+    condition: numeric_state
+    entity_id: sensor.bedroom_temperature
+  action:
+  - data:
+      message: Don't forget to turn off the heaters 🏠🔥🥵
+    service: notify.ios_iphone_11_pro
+- id: '1591907544710'
+  alias: 'Lights: Turn on the living room when light level is low'
+  description: ''
+  trigger:
+  - below: 10
+    device_id: 34079b50d2bd46a781e9813584b42f90
+    domain: sensor
+    entity_id: sensor.livingroom_light
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 15
+    platform: device
+    type: illuminance
+  condition: []
+  action:
+  - scene: scene.living_room_normal

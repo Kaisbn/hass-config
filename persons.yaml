@@ -1,0 +1,10 @@
+- name: Kais
+  id: kais
+  device_trackers:
+    - device_tracker.iphone_11_pro_2
+  user_id: 486fe6468a1047d1b8c60e99133fb68d
+- name: Karine
+  id: karine
+  device_trackers:
+    - device_tracker.karines_iphone
+  user_id: 0b7019b0402d456a8d0da40cb97b9aa9

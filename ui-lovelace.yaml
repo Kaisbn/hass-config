@@ -1,20 +1,3 @@
-resources:
-  - type: js
-    url: /local/kiosk.js
-  - type: js
-    url: /community_plugin/lovelace-valetudo-map-card/valetudo-map-card.js
-  - type: js
-    url: /local/custom_cards/icloud3-event-log-card.js?v=1.000
-  - url: /community_plugin/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js
-    type: js
-  - type: module
-    url: /community_plugin/aftership-card/aftership-card.js
-  - type: module
-    url: /community_plugin/custom-header/custom-header.js
-  - type: module
-    url: /community_plugin/mini-media-player/mini-media-player-bundle.js
-  - url: /local/slider-entity-row.js
-    type: module
 custom_header:
   compact_mode: true
   background: rgba(155, 155, 155, 0.25)
@@ -25,90 +8,96 @@ views:
   - path: dashboard
     title: Dashboard
     icon: fas:tachometer-alt
+    panel: true
     badges:
-      - entity: device_tracker.iphone11pro
+      - entity: person.kais
       - entity: person.karine
     cards:
-      - cards:
-          - entities:
-              - entity: binary_sensor.front_door_contact
-              - entity: binary_sensor.motion_2_occupancy
-              - entity: binary_sensor.motion_1_occupancy
-              - entity: sensor.livingroom_temperature
-                name: Living room
-              - entity: sensor.livingroom_humidity
-                name: Living room
-              - entity: sensor.bedroom_temperature
-                name: Bedroom
-              - entity: sensor.bedroom_humidity
-                name: Bedroom
-            show_header_toggle: false
-            title: Sensors
-            type: entities
-          - type: entities
-            show_header_toggle: false
-            title: Lights
-            entities:
-              - entity: switch.led_lights_switch
-                name: LED
-              - type: custom:slider-entity-row
-                entity: light.bulb_light
-                name: Bulb
-              - type: custom:slider-entity-row
-                entity: light.bedroom
-                name: Bedroom
-              - type: custom:slider-entity-row
-                entity: light.kitchen
-                name: Kitchen
-        type: vertical-stack
-      - cards:
-          - type: 'custom:xiaomi-vacuum-card'
-            entity: vacuum.rockrobo
-            vendor: valetudo
-            name: 'Vacuum'
-          - cards:
-              - entities:
-                  - entity: switch.vacuum_charger
-                    name: Outlet
-                  - entity: switch.vacuum_charger_usb
-                    name: USB
-                title: Vacuum base
-                type: entities
-              - entities:
-                  - entity: switch.power_outlet
-                    name: Outlet
-                  - entity: switch.power_outlet_usb
-                    name: USB
-                title: Power outlet
-                type: entities
-            type: horizontal-stack
-          - type: entities
-            show_header_toggle: false
-            entities:
-              - entity: switch.vacuum
-                name: House
-              - entity: switch.vacuum_living_room
-                name: Living Room
-              - entity: switch.vacuum_kitchen
-                name: Kitchen
-              - entity: switch.vacuum_hall
-                name: Hall
-              - entity: switch.vacuum_bedroom
-                name: Bedroom
-              - entity: switch.vacuum_bathroom
-                name: Bathroom
-            title: Vacuum zone
-        type: vertical-stack
-      - type: 'custom:valetudo-map-card'
-        entity: sensor.vacuum_map
-        rotate: -90
-        crop:
-          top: 100
-          bottom: -100
-          left: 0
-          right: 0
-        min_height: 0
-        map_scale: 2
+      - type: horizontal-stack
+        cards:
+          - type: horizontal-stack
+            title: Room control
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.bedroom
+                        hide_state: true
+                        name: Light
+                      - entity: sensor.bedroom_light
+                        name: Lux
+                      - entity: sensor.bedroom_temperature
+                        name: Temperature
+                      - entity: sensor.bedroom_humidity
+                        name: Humidity
+                      - entity: binary_sensor.motion_1_occupancy
+                        name: Occupancy
+                      - entity: switch.vacuum_bedroom
+                        name: Vacuum
+                    show_header_toggle: false
+                    title: Bedroom
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.kitchen
+                        hide_state: true
+                        name: Light
+                      - entity: switch.vacuum_kitchen
+                        name: Vacuum
+                    show_header_toggle: false
+                    title: Kitchen
+                  - type: entities
+                    entities:
+                      - entity: switch.vacuum_bathroom
+                        name: Vacuum
+                    show_header_toggle: false
+                    title: Bathroom
+              - type: vertical-stack
+                cards:
+                  - type: entities
+                    entities:
+                      - type: custom:slider-entity-row
+                        entity: light.bulb_light
+                        hide_state: true
+                        name: Lamp
+                      - entity: switch.led_lights_switch
+                        name: LED lamp
+                      - entity: sensor.livingroom_light
+                        name: Lux
+                      - entity: sensor.livingroom_temperature
+                        name: Temperature
+                      - entity: sensor.livingroom_humidity
+                        name: Humidity
+                      - entity: switch.vacuum_living_room
+                        name: Vacuum
+                    title: Living room
+                    show_header_toggle: false
+                  - type: entities
+                    entities:
+                      - entity: binary_sensor.front_door_contact
+                        name: Door
+                      - entity: binary_sensor.motion_2_occupancy
+                        name: Occupancy
+                      - entity: switch.vacuum_hall
+                        name: Vacuum
+                    show_header_toggle: false
+                    title: Entrance
+          - type: vertical-stack
+            cards:
+              - type: 'custom:xiaomi-vacuum-card'
+                entity: vacuum.rockrobo
+                vendor: valetudo
+                name: 'Vacuum'
+              - type: picture-entity
+                aspect_ratio: 55%
+                camera_image: camera.vacuum_map
+                entity: camera.vacuum_map
+                hold_action:
+                  action: none
+                show_state: false
+            title: Vacuum
 
   # Weather panel
   - path: weather
@@ -150,16 +139,6 @@ views:
               action: more-info
             type: picture-entity
         type: vertical-stack
-
-  # Shipping panel
-  - title: Packages
-    panel: true
-    icon: fas:shipping-fast
-    cards:
-      - entity: sensor.aftership
-        title: Packages
-        type: 'custom:aftership-card'
-
   # Network/Zigbee settings
   - badges: []
     icon: fas:network-wired
@@ -184,37 +163,5 @@ views:
           - switch.zigbee2mqtt_main_join
         title: Automation
         type: entities
-      - entities:
-          - entity: automation.turn_on_the_living_room_lights
-          - entity: automation.turn_on_the_living_room_lights_when_motion_is_detected
-          - entity: automation.turn_on_the_living_room_lights_dimmed
-          - entity: automation.turn_off_the_living_room_lights_using_switch
-          - entity: automation.dim_living_room_when_media_is_playing
-          - entity: automation.undim_living_room_lights_when_media_is_paused
-        title: Lights
-        type: entities
     path: zigbee-control
     title: Zigbee control
-
-  # Torrent/Media center
-  - badges:
-      - entity: sensor.transmission_active_torrents
-      - entity: sensor.transmission_status
-      - entity: sensor.transmission_completed_torrents
-      - entity: sensor.transmission_started_torrents
-      - entity: sensor.transmission_up_speed
-      - entity: sensor.transmission_down_speed
-    icon: fas:cloud-download-alt
-    cards:
-      - entity: media_player.spotify
-        type: custom:mini-media-player
-        artwork: cover
-        source: icon
-      - entities:
-          - entity: switch.transmission_turtle_mode
-          - entity: switch.transmission_switch
-        title: Switch
-        type: entities
-    panel: false
-    path: default_view
-    title: Media

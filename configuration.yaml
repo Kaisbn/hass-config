@@ -1,10 +1,6 @@
 alexa:
   smart_home:
-    filter:
-      exclude_domains:
-        - automation
-        - group
-        - media_player
+    filter: !include filter.yaml
 
 api:
 
@@ -14,17 +10,16 @@ binary_sensor: !include binary_sensors.yaml
 
 camera: !include cameras.yaml
 
-cloud:
-
 config:
 
 device_tracker: !include device_trackers.yaml
 
 discovery:
   ignore:
-    - igd
     - google_cast
-    - plex_mediaserver
+
+emulated_hue:
+  listen_port: 80
 
 fontawesome:
   regular:
@@ -40,13 +35,18 @@ history:
   include:
     domains:
       - binary_sensor
-      - device_tracker
       - light
       - sensor
+      - switch
       - sun
 
 homeassistant:
   packages: !include_dir_named packages
+  customize:
+    person.kais:
+      entity_picture: "/local/kais.png"
+    person.karine:
+      entity_picture: "/local/karine.png"
   auth_providers:
      - type: homeassistant
      - type: trusted_networks
@@ -56,9 +56,12 @@ homeassistant:
          - fd00::/8
 
 homekit:
+ - filter: !include filter.yaml
+   entity_config:
+      camera.vacuum_map:
+        stream_source: "-re -f mjpeg -i https://robot.kaisbn.fr/map" #!secret vacuum_map_url
 
 http:
-  base_url: !secret baseurl
   use_x_forwarded_for: true
   trusted_proxies:
     - 127.0.0.1
@@ -74,10 +77,11 @@ logbook:
 
 lovelace:
   mode: yaml
+  resources: !include resources.yaml
 
 map:
 
-media_player: !include media_players.yaml
+# media_player: !include media_players.yaml
 
 mobile_app:
 
@@ -91,18 +95,30 @@ mqtt:
     topic: 'hass/status'
     payload: 'offline'
 
-person:
+person: !include persons.yaml
 
 recorder:
   exclude:
-    entities:
-      - sensor.vacuum_map
+    domains:
+      - camera
+
+remote:
+  - platform: xiaomi_miio
+    host: !secret miremote_ip
+    token: !secret miremote_token
+    name: MiRemote
 
 script: !include scripts.yaml
 
 scene: !include scenes.yaml
 
 sensor: !include sensors.yaml
+
+smartir:
+
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_secret
 
 sun:
 

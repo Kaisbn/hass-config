@@ -1,0 +1,20 @@
+include_domains:
+  - light
+  - switch
+
+include_entities:
+  - binary_sensor.front_door_contact
+  - camera.mt_seymour
+  - camera.vacuum_map
+  - input_boolean.in_bed
+  - input_boolean.on_vacation
+  - sensor.bedroom
+  - sensor.bedroom_light
+  - sensor.bedroom_humidity
+  - sensor.bedroom_pressure
+  - sensor.bedroom_temperature
+  - sensor.livingroom_light
+  - sensor.livingroom_humidity
+  - sensor.livingroom_pressure
+  - sensor.livingroom_temperature
+  - vacuum.rockrobo

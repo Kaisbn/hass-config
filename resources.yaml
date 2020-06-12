@@ -1,0 +1,8 @@
+- type: js
+  url: /hacsfiles//kiosk/kiosk.js
+- type: js
+  url: /hacsfiles/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js
+- type: module
+  url: /hacsfiles/custom-header/custom-header.js
+- type: module
+  url: /local/slider-entity-row.js

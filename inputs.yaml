@@ -7,3 +7,8 @@ vacation_mode:
   name: 'On Vacation'
   initial: off
   icon: mdi:airplane
+
+in_bed:
+  name: 'In bed'
+  initial: off
+  icon: mdi:bed-queen

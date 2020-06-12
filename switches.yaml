@@ -1,18 +1,34 @@
-- platform: xiaomi_miio
-  host: !secret switch1_ip
-  token: !secret switch1_token
-  name: Vacuum charger
-  model: 'chuangmi.plug.v3'
-- platform: xiaomi_miio
-  host: !secret switch2_ip
-  token: !secret switch2_token
-  name: Power outlet
-  model: 'chuangmi.plug.v3'
+# - platform: xiaomi_miio
+#   host: !secret switch1_ip
+#   token: !secret switch1_token
+#   name: Vacuum charger
+#   model: 'chuangmi.plug.v3'
+# - platform: xiaomi_miio
+#   host: !secret switch2_ip
+#   token: !secret switch2_token
+#   name: Power outlet
+#   model: 'chuangmi.plug.v3'
 - platform: template
   switches:
+    vacuum_den:
+      friendly_name: Vacuum den
+      value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      icon_template: mdi:robot-vacuum
+      turn_on:
+        service: vacuum.send_command
+        data:
+          entity_id: vacuum.rockrobo
+          command: 'zoned_cleanup'
+          params:
+            zone_ids:
+              - Den
+      turn_off:
+        service: vacuum.return_to_base
+        entity_id: vacuum.rockrobo
     vacuum_kitchen:
       friendly_name: Vacuum kitchen
       value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      icon_template: mdi:robot-vacuum
       turn_on:
         service: vacuum.send_command
         data:
@@ -27,6 +43,7 @@
     vacuum_hall:
       friendly_name: Vacuum hall
       value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      icon_template: mdi:robot-vacuum
       turn_on:
         service: vacuum.send_command
         data:
@@ -41,6 +58,7 @@
     vacuum_living_room:
       friendly_name: Vacuum living room
       value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      icon_template: mdi:robot-vacuum
       turn_on:
         service: vacuum.send_command
         data:
@@ -48,13 +66,14 @@
           command: 'zoned_cleanup'
           params:
             zone_ids:
-              - Living room
+              - Living Room
       turn_off:
         service: vacuum.return_to_base
         entity_id: vacuum.rockrobo
     vacuum_bathroom:
       friendly_name: Vacuum bathroom
       value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      icon_template: mdi:robot-vacuum
       turn_on:
         service: vacuum.send_command
         data:
@@ -69,6 +88,7 @@
     vacuum_bedroom:
       friendly_name: Vacuum bedroom
       value_template: "{{ is_state('vacuum.robovac', 'on') }}"
+      icon_template: mdi:robot-vacuum
       turn_on:
         service: vacuum.send_command
         data:
@@ -91,7 +111,7 @@
           params:
             zone_ids:
               - Kitchen
-              - Living room
+              - Living Room
               - Bedroom
               - Bathroom
               - Hall

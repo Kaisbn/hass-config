@@ -1,6 +1,8 @@
-- platform: spotify
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_secret
+platform: smartir
+    name: TV
+    unique_id: vizio_tv
+    device_code: 1200
+    controller_data: remote.ir
 - platform: androidtv
   name: Fire TV
   device_class: firetv
