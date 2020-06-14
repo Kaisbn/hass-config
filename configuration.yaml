@@ -42,11 +42,7 @@ history:
 
 homeassistant:
   packages: !include_dir_named packages
-  customize:
-    person.kais:
-      entity_picture: "/local/kais.png"
-    person.karine:
-      entity_picture: "/local/karine.png"
+  customize: !include customize.yaml
   auth_providers:
      - type: homeassistant
      - type: trusted_networks
@@ -59,7 +55,13 @@ homekit:
  - filter: !include filter.yaml
    entity_config:
       camera.vacuum_map:
-        stream_source: "-re -f mjpeg -i https://robot.kaisbn.fr/map" #!secret vacuum_map_url
+        stream_source: !secret vacuum_map_url
+      media_player.tv:
+        feature_list:
+          - feature: on_off
+          - feature: play_pause
+          - feature: play_stop
+          - feature: toggle_mute
 
 http:
   use_x_forwarded_for: true
@@ -81,7 +83,7 @@ lovelace:
 
 map:
 
-# media_player: !include media_players.yaml
+media_player: !include media_players.yaml
 
 mobile_app:
 

@@ -64,6 +64,8 @@ views:
                         name: Lamp
                       - entity: switch.led_lights_switch
                         name: LED lamp
+                      - entity: media_player.tv
+                        name: TV
                       - entity: sensor.livingroom_light
                         name: Lux
                       - entity: sensor.livingroom_temperature

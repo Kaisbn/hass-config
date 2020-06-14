@@ -8,6 +8,7 @@ include_entities:
   - camera.vacuum_map
   - input_boolean.in_bed
   - input_boolean.on_vacation
+  - media_player.tv
   - sensor.bedroom
   - sensor.bedroom_light
   - sensor.bedroom_humidity

@@ -404,3 +404,27 @@
   condition: []
   action:
   - scene: scene.living_room_normal
+- id: '1591988789043'
+  alias: 'Lights: Turn off living room lights when intensity is high'
+  description: ''
+  trigger:
+  - above: 15
+    device_id: 34079b50d2bd46a781e9813584b42f90
+    domain: sensor
+    entity_id: sensor.livingroom_light
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 15
+    platform: device
+    type: illuminance
+  condition: []
+  action:
+  - device_id: 3c7b03507e4340f699ab93684c061d53
+    domain: light
+    entity_id: light.bulb_light
+    type: turn_off
+  - device_id: 696174e7edb34ab7961d233900e11e28
+    domain: switch
+    entity_id: switch.led_lights_switch
+    type: turn_off
