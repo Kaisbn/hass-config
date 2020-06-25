@@ -1,0 +1,27 @@
+commands:
+  on: 'nMwmUwlk0mk5mEsms3ADKagD7MZtOAGPAH8DDwMGA58BnwCPA08AfwIPAg8CjwUvA68BnwCPAIWYQAA='
+  off: nMwmUwlk0mk5mEsms3ADKagD7MZtOAGPAH8DDwMGA58BnwCPA08AfwIPAg8CjwUvA68BnwCPAIWYQAA=
+  input: nMwmUwlk0mk4mEsmoAZzQAfZjNpvMJZNpgAYQEpAMOAf4B7gDnMZtNQCKBK8FPQK/Aj8BrwCOmoDPhF+FHYA/hueDH4BDTCAAA==
+
+  reverse: nMwmMwlk0mk5mEsms3ADKbAB1NJhLJjNwHSAUwAPwA+mM2BJMDmACCms4AZsCLwdUARUAjQNTA98BDwKqCK8MPw3LCJgCFwU0DtsH6JhAA==
+  pause: nMwmMwlk0mk5mEsms3ADKagD7MZtOAGPAH6bAYeBgwHPgM+AR4BHgEeCf4DPhJ+Af4HPhmeCl4BCzCAA
+  play: nMwmMwlk0mk5mEsms3ADKagBlNAAynAB6zGbAEMAwgA9zYBfwMOA50C0pjNgY2Ai8AjwCPBsYHBwC2Aq8CWgmvAPYEqAiVBT8FPwCEmEAA==
+  forward: nMwmMwlk0mk5mEsms3ADKbABlNAAynABazGbAEGAw4A9zUA+gA3A4KYzcE4gGDA50BnwCPBugIcwTnAZ8HiQELCi8JqAGPBYgDpQ5XAYwJD5hAA=
+#   stop:
+
+  menu: nMwmUwlk0mk4mEsms3ADKagDzNphMJZMZsAgYDhgMUAek0Aw8BdZjNgDDADKYzYCUwOaAQUBmwK1AIQAQgbsAj0BrgNWCCMBk5qGAQVegMcAOYWcAD0C3oJWgRNMIAA=
+#   exit:
+#   info:
+#   back:
+# 
+#   up:
+#   down:
+#   left:
+#   right:
+#   select:
+
+  vol-up: nMwmMwlk0mk5mEsms3ADKagD7MZtOAEKmwAfgBsA/QGEAc6AhYBHgEeBp4TGg3uDvYD/hD2BQ4MfgEeAR4BCzCAA
+  vol-down: nMwmMwlk0mk5mEsms3ADKagD7MZtOAEGmwEHgL8AOwGEAcyBSYDpTGbAxsAyoCPgEeAR4IzgB+EBgB/hk+D94CLhD+AREwgA
+#   ch-up:
+#   ch-down:
+#   vol-mute:

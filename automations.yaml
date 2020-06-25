@@ -131,7 +131,7 @@
       condition: sun
     - before: '23:59:59'
       condition: time
-    - below: 5
+    - below: 10
       condition: device
       device_id: f8704551f8ad4e73b9986af69f2c776a
       domain: sensor
@@ -401,14 +401,19 @@
       seconds: 15
     platform: device
     type: illuminance
-  condition: []
+  condition:
+  - after: sunset
+    after_offset: -00:30:00
+    condition: sun
+  - before: '23:59:59'
+    condition: time
   action:
   - scene: scene.living_room_normal
 - id: '1591988789043'
   alias: 'Lights: Turn off living room lights when intensity is high'
   description: ''
   trigger:
-  - above: 15
+  - above: 20
     device_id: 34079b50d2bd46a781e9813584b42f90
     domain: sensor
     entity_id: sensor.livingroom_light
