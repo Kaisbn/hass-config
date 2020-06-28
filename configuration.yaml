@@ -44,13 +44,6 @@ homeassistant:
   packages: !include_dir_named packages
   customize: !include customize.yaml
   auth_providers:
-     - type: homeassistant
-     - type: trusted_networks
-       trusted_networks:
-         - 192.168.1.0/24
-         - 127.0.0.1
-         - fd00::/8
-         - !secret docker_host_ip
 
 homekit:
   advertise_ip: !secret network_host_ip
