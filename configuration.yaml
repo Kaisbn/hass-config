@@ -49,8 +49,6 @@ homekit:
   advertise_ip: !secret network_host_ip
   filter: !include filter.yaml
   entity_config:
-    camera.vacuum_map:
-      stream_source: !secret vacuum_map_url
     media_player.tv:
       feature_list:
         - feature: on_off

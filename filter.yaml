@@ -5,7 +5,6 @@ include_domains:
 include_entities:
   - binary_sensor.front_door_contact
   - camera.mt_seymour
-  - camera.vacuum_map
   - input_boolean.in_bed
   - input_boolean.on_vacation
   - media_player.tv
